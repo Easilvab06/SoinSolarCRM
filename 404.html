@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Redirigiendo…</title>
+</head>
+<body>
+<script>
+  // Guarda la ruta solicitada y redirige al root
+  // El main.js la recupera y restaura antes de montar Vue
+  var path = location.pathname + location.search + location.hash;
+  sessionStorage.setItem('spaRedirect', path);
+  location.replace('/SoinSolarCRM/');
+</script>
+</body>
+</html>

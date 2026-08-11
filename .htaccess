@@ -1,0 +1,29 @@
+# =============================================
+# SPA - SoinSolar CRM - cPanel / Apache (máxima fiabilidad)
+# =============================================
+Options +FollowSymLinks -MultiViews
+DirectoryIndex index.html
+
+# Nunca cachear HTML (evita que quede versión vieja de la app)
+<FilesMatch "\.(html)$">
+  Header set Cache-Control "no-cache, no-store, must-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # SPA: cualquier ruta que no exista físicamente → index.html
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# Fallback moderno (funciona aunque rewrite falle)
+FallbackResource /index.html
+
+# ÚLTIMO RECURSO: si Apache genera 404, servir index.html directamente
+# Esto elimina para siempre el mensaje "ErrorDocument itself returned 404"
+ErrorDocument 404 /index.html
